@@ -28,7 +28,7 @@ if [ ! -n "$DOWNLOADER" ]; then
 fi
 
 echo Downloading llvm...
-RUN="$DOWNLOADER $DOWNLOADEROPTS llvm-3.5.0.src.tar.xz http://llvm.org/releases/3.5.0/llvm-3.5.0.src.tar.xz"
+RUN="$DOWNLOADER $DOWNLOADEROPTS llvm-3.5.0.src.tar.xz http://releases.llvm.org/3.5.0/llvm-3.5.0.src.tar.xz"
 echo $RUN
 $RUN
 
@@ -36,7 +36,7 @@ echo Extracting llvm...
 tar xf llvm-3.5.0.src.tar.xz
 
 echo Downloading clang...
-RUN="$DOWNLOADER $DOWNLOADEROPTS clang.tar.xz http://llvm.org/releases/3.5.0/cfe-3.5.0.src.tar.xz"
+RUN="$DOWNLOADER $DOWNLOADEROPTS clang.tar.xz http://releases.llvm.org/3.5.0/cfe-3.5.0.src.tar.xz"
 echo $RUN
 $RUN
 
@@ -58,7 +58,3 @@ CXX=g++ ../llvm-3.5.0.src/configure --enable-optimized
 
 echo Building...
 make -j$NUM_CORES
-
-
-
-
