@@ -5,8 +5,8 @@ EXE=simtrax
 
 # for OSX
 CXX = clang++
-CXXFLAGS = -g -Wall -Wno-format-security -Wno-unused-value -O3 -pthread -I/opt/local/include/ 
-LDFLAGS = -L/opt/local/lib/ -lboost_regex-mt -lboost_system-mt -lboost_chrono-mt
+CXXFLAGS = -g -Wall -Wno-format-security -Wno-unused-value -O3 -pthread -I/usr/local/include/
+LDFLAGS = -L/usr/local/lib/ -lboost_regex-mt -lboost_system-mt -lboost_chrono-mt
 
 # for CADE
 #CXX = g++
@@ -15,7 +15,7 @@ LDFLAGS = -L/opt/local/lib/ -lboost_regex-mt -lboost_system-mt -lboost_chrono-mt
 # for ubuntu/other linux
 # you may need to add paths to your boost include (-I) and/or library (-L) directories, as above
 #CXX = g++
-#CXXFLAGS = -g -Wall -Wno-unused-result -Wno-unused-but-set-variable -Wno-maybe-uninitialized -Wno-format-security -O3 -pthread 
+#CXXFLAGS = -g -Wall -Wno-unused-result -Wno-unused-but-set-variable -Wno-maybe-uninitialized -Wno-format-security -O3 -pthread
 #LDFLAGS = -lboost_regex -lboost_system -lboost_chrono
 
 #LDFLAGS ?=
