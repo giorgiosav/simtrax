@@ -40,23 +40,18 @@ MEMORYFILE=\"memory.mem\"
 # The compiler to use for the executable
 CXX=g++
 CXXFILENAMES=-DVIEWFILE=${VIEWFILE} -DMODELFILE=${MODELFILE} -DLIGHTFILE=${LIGHTFILE} -DMEMORYFILE=${MEMORYFILE}
-CXXFLAGS=-DTRAX=0 -DWIDTH=${WIDTH} -DHEIGHT=${HEIGHT} ${CXXFILENAMES} -I${SIMDIR} -I${INCLUDEDIR} -pthread -O3 -g -std=c++11 \
-		 -mavx
-CXXSIMFILES=${SIMDIR}/LoadMemory.cc ${SIMDIR}/OBJLoader.cc ${SIMDIR}/OBJListLoader.cc ${SIMDIR}/IWLoader.cc \
-			${SIMDIR}/BVH.cc ${SIMDIR}/Grid.cc ${SIMDIR}/Camera.cc ${SIMDIR}/ReadLightfile.cc ${SIMDIR}/ReadViewfile.cc \
-			${SIMDIR}/Material.cc ${SIMDIR}/Triangle.cc ${SIMDIR}/MTLLoader.cc ${SIMDIR}/PPM.cc ${SIMDIR}/TGALoader.cc \
-			${SIMDIR}/CustomLoadMemory.cc ${SIMDIR}/lodepng.cc \
-			${SIMDIR}/matrix4.cc ${SIMDIR}/transform.cc
+CXXFLAGS=-DTRAX=0 -DWIDTH=${WIDTH} -DHEIGHT=${HEIGHT} ${CXXFILENAMES} -I${SIMDIR} -I${INCLUDEDIR} -pthread -O3 -g
+CXXSIMFILES=${SIMDIR}/LoadMemory.cc ${SIMDIR}/OBJLoader.cc ${SIMDIR}/OBJListLoader.cc ${SIMDIR}/IWLoader.cc ${SIMDIR}/BVH.cc ${SIMDIR}/Grid.cc ${SIMDIR}/Camera.cc ${SIMDIR}/ReadLightfile.cc ${SIMDIR}/ReadViewfile.cc ${SIMDIR}/Material.cc ${SIMDIR}/Triangle.cc ${SIMDIR}/MTLLoader.cc ${SIMDIR}/PPM.cc ${SIMDIR}/TGALoader.cc ${SIMDIR}/CustomLoadMemory.cc ${SIMDIR}/lodepng.cc
 CXXLIBS=${LIBDIR}/trax_cpp.cpp
 
 # for OSX
-#LDFLAGS = -I/opt/local/include/ -L/opt/local/lib/ -lboost_regex-mt -lboost_system-mt -lboost_chrono-mt
+LDFLAGS = -I/usr/local/include/ -L/usr/local/lib/ -lboost_regex-mt -lboost_system-mt -lboost_chrono-mt
 
 # for CADE
 #LDFLAGS = -I/usr/local/stow/boost/boost_1_55_0/include/ -L/usr/local/stow/boost/boost_1_55_0/lib/ -lboost_regex -lboost_system -lboost_chrono
 
 # for ubuntu/other linux
-LDFLAGS = -I/opt/local/include/ -L/opt/local/lib/ -lboost_regex-mt -lboost_system-mt -lboost_chrono-mt
+#LDFLAGS = -lboost_regex -lboost_system -lboost_chrono
 
 
 # Front end compiler to use for trax target
@@ -66,9 +61,9 @@ LDFLAGS = -I/opt/local/include/ -L/opt/local/lib/ -lboost_regex-mt -lboost_syste
 # clang is preferred.
 TRAXC=${BINDIR}/clang++
 #TRAXC=clang++
-TRAXCFLAGS=-DTRAX=1 -I${INCLUDEDIR} -S -std=c++11 -O3 -target mipsel -mmsa -fverbose-asm
+TRAXCFLAGS=-DTRAX=1 -I${INCLUDEDIR} -target mipsel -S -O3
 
-all: mkdirs ${TRAXOUTPUT} # run_rt won't work with MIPS intrinsics
+all: mkdirs ${BINARYOUTPUT} ${TRAXOUTPUT}
 default: mkdirs ${BINARYOUTPUT} ${TRAXOUTPUT}
 #all: mkdirs ${TRAXOUTPUT}
 #default: mkdirs ${TRAXOUTPUT}
@@ -104,7 +99,7 @@ OBJS := $(addprefix objs/, $(notdir $(SOURCES:${CSUFFIX}=.bc))) objs/trax_trax.b
 rt.s: ${OBJS} ${INCLUDEDIR}/trax.hpp
 	@${BINDIR}/llvm-link ${OBJS} -o rt.bc
 	@${BINDIR}/opt rt.bc -O3 -inline-threshold 200000000 -o rt.bc
-	@${BINDIR}/llc rt.bc -o rt.s -march=mipsel -mattr=+mips32,+single-float,+msa -relocation-model=static
+	@${BINDIR}/llc rt.bc -o rt.s -march=mipsel -mattr=+mips32,+single-float -relocation-model=static
 
 
 clean:

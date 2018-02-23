@@ -45,7 +45,7 @@ CXXSIMFILES=${SIMDIR}/LoadMemory.cc ${SIMDIR}/OBJLoader.cc ${SIMDIR}/OBJListLoad
 CXXLIBS=${LIBDIR}/trax_cpp.cpp
 
 # for OSX
-LDFLAGS = -I/opt/local/include/ -L/opt/local/lib/ -lboost_regex-mt -lboost_system-mt -lboost_chrono-mt
+LDFLAGS = -I/usr/local/include/ -L/usr/local/lib/ -lboost_regex-mt -lboost_system-mt -lboost_chrono-mt
 
 # for CADE
 #LDFLAGS = -I/usr/local/stow/boost/boost_1_55_0/include/ -L/usr/local/stow/boost/boost_1_55_0/lib/ -lboost_regex -lboost_system -lboost_chrono

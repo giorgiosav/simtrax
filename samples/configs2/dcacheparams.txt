@@ -229,3 +229,4 @@ Cache size (bytes)	Num banks	Line Size (bytes)	Area (mm2)	Energy (nJ)
 8388608	   64		32		79.121050	2.239116
 8388608	   64		64		76.037730	2.227535
 8388608	   64		128		74.936400	2.221029
+
