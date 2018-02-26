@@ -3,7 +3,7 @@
 SIMTRAXROOT=../../
 #SIMTRAXROOT=/absolute/path/to/simtrax
 
-ASSEMBLY=$SIMTRAXROOT/samples/src/gradient/rt-llvm.s
+ASSEMBLY=$SIMTRAXROOT/samples/src/mandelbrot/rt-llvm.s
 # simulation report file
 OUTPUT_FILE=temp_results.txt
 # image output name
@@ -30,7 +30,11 @@ NUM_L2S=1
 NUM_REGS=36
 # 32 compiler used + 4 reserved
 #OTHER is used just to add extra arguments
-OTHER=
+
+CACHEPARAMS="--dcacheparams ../configs/dcacheparams.txt --icacheparams ../configs/icacheparams.txt"
+USIMM="--usimm-config ../configs/usimm_configs/gddr5_8ch.cfg --vi-file ../configs/usimm_configs/1Gb_x16_amd2GHz.vi"
+#USIMM="--disable-usimm"
+OTHER="$CACHEPARAMS $USIMM"
 
 SIMTRAX=$SIMTRAXROOT/sim/simtrax
 
@@ -47,5 +51,3 @@ MISC_CONF="--simulation-threads $SIMULATION_THREADS --config-file $CONFIG"
 RUN="time nice $SIMTRAX $OTHER $CORE_CONF $IMAGE_CONF $MISC_CONF $ICACHE_CONF $SCENE --load-assembly $ASSEMBLY"
 echo $RUN
 $RUN > $OUTPUT_FILE
-
-
