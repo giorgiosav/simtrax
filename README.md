@@ -16,7 +16,7 @@ line 137 make sure you have the following:
     T* Obj;`
 4. In `llvm-trax/build` run `make` in the terminal. This will finish the build from step 2.
 __Do not run `setup.sh` again__, as this will override the changes made to `IntrusiveRefCntPtr.h`.
-5. Go to the `sim` directory (`../sim`) and run `make` in the terminal.
+5. Go to `simtrax/sim` and run `make` in the terminal.
 
 To set up the example files:
 1. Go to `samples/src` and choose an example file (ex: gradient).
