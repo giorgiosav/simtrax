@@ -40,27 +40,25 @@ The arguments you might eventually care about:
 
 ****These ones configure the resources on the chip****
 
-  --num-thread-procs  (threads per TM)
-  --num-cores (number of TMs)
-  --num-L2s (number of L2 caches. Each L2 has --num-cores TMs connected to it)
-  --config-file (specifies execution units and cache sizes)
-  --num-icaches (number of instruction caches per TM)
-  --num-icache-banks (number of banks per icache)
-  --dcache-params (specifies simulated area and energy for various data cache capacity/bank configurations. Probably best to use default here unless you are using weird caches. Leave this argument out for default)
-  --icache-params (similar to dcache-parame but for the icaches)
+--num-thread-procs  (threads per TM)  
+--num-cores (number of TMs)  
+--num-L2s (number of L2 caches. Each L2 has --num-cores TMs connected to it)  
+--config-file (specifies execution units and cache sizes)  
+--num-icaches (number of instruction caches per TM)  
+--num-icache-banks (number of banks per icache)  
+--dcache-params (specifies simulated area and energy for various data cache capacity/bank configurations. Probably best to use default here unless you are using weird caches. Leave this argument out for default)  
+--icache-params (similar to dcache-parame but for the icaches)
 
 ****These ones configure the memory****
 
-  --usimm-config (specify a usimm config file - best to leave this argument out unless you are changing the DRAM configuration)
-  --vi-file (specifies energy and latency parameters for DRAM - best to leave this argument out unless you are changing the DRAM configuration)
+--usimm-config (specify a usimm config file - best to leave this argument out unless you are changing the DRAM configuration)  
+--vi-file (specifies energy and latency parameters for DRAM - best to leave this argument out unless you are changing the DRAM configuration)  
 
 ****These ones configure simtrax output and/or debugging****
 
-  --issue-verbosity (displays per-cycle information. very verbose, almost always want to leave this out unless debugging)
-
-  --print-instructions (prints the assembled form of the instructions to be run)
-
-  --print-symbols (prints the assembly symbol and register names and their values/addresses)
+--issue-verbosity (displays per-cycle information. very verbose, almost always want to leave this out unless debugging)  
+--print-instructions (prints the assembled form of the instructions to be run)  
+--print-symbols (prints the assembly symbol and register names and their values/addresses)  
 
 ## Programming
 ### Camera
