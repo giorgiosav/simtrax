@@ -85,7 +85,7 @@ The arguments you might eventually care about:
 | far clip (rasterizer) | camera_ptr + 33 |
 
 
-##Accessing Pre-Loaded Global Constants
+### Accessing Pre-Loaded Global Constants
 
 | Function | Description | Notes |
 |:-------------|:----------------|:----------|
@@ -113,7 +113,7 @@ Thread Information
 | int GetCoreID() | Returns the thread's TM ID|Affected by simulator parameters: --num-thread-procs, --num-TMs, --num-l2s|
 | int GetL2ID() | Returns the thread's L2 ID|Affected by simulator parameters: --num-thread-procs, --num-TMs, --num-l2s|
 
-## Accessing Global Memory
+### Accessing Global Memory
 
 TRaX has two memory spaces: thread-local, and global (see Programming#TRaX_memory_system). All global memory access is done explicitly with the below base functions. It is recommended to build on these with your own helper functions for loading/storing data structures.
 
@@ -126,7 +126,7 @@ Note: in the functions below, offset must be an integer literal (can not be a va
 | void storei( int value, int base, int offset = 0 ) | Stores value to global memory at address base + offset|
 | void storef( float value, int base, int offset = 0 ) | Stores value to global memory at address base + offset|
 
-## Arithmetic
+### Arithmetic
 
 | Function | Description | Notes |
 |:-------------|:----------------|:----------|
@@ -136,7 +136,7 @@ Note: in the functions below, offset must be an integer literal (can not be a va
 | float trax_rand( ) | Returns a random number between 0 and 1 | Implemented as a machine instruction |
 
 
-## Thread Synchronization
+### Thread Synchronization
 
 These functions all use global registers, accessed atomically, to implement thread synchronization. Functions that modify global registers must be carefully used in a way that they do not interfere with each other. For example, using the same global register as a counter (atomicinc) and a semaphore at the same time will have undesired results.
 
@@ -148,7 +148,7 @@ These functions all use global registers, accessed atomically, to implement thre
 | void trax_semrel( int glbID ) | Releases semaphore on global register glbID. | Global register glbID should not be used by any other non-semaphore functions|
 
 
-## Debug
+### Debug
 
 | Function | Description | Notes |
 |:-------------|:----------------|:----------|
