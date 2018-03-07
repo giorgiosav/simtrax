@@ -1,7 +1,7 @@
 This program was developed by Josef Spjut and Daniel Kopta. I am only
 forking it for personal reference.
 
-Documentation from the authors: https://code.google.com/archive/p/simtrax/wikis/API.wiki
+Documentation from the authors: https://code.google.com/archive/p/simtrax/wikis
 
 ## In order to install (Mac OSX)
 
