@@ -1,3 +1,6 @@
+This program was developed by Josef Spjut and Daniel Kopta. I am only
+forking it for personal reference.
+
 ## In order to install (Mac OSX)
 
 **NB: These instructions may be incomplete**
@@ -24,6 +27,8 @@ To set up the example files:
 3. Run `./run_rt` in the terminal. This should create a TRaX assembly file
 called `rt-llvm.s`.
 
+
+## Simulation
 
 The arguments you might eventually care about:
 
@@ -59,6 +64,8 @@ The arguments you might eventually care about:
 
 --print-symbols (prints the assembly symbol and register names and their values/addresses)
 
+## Programming
+### Camera
 
 | Data | Location in Memory | Meaning |
 |:---------|:-----------------------|:------------|
@@ -76,3 +83,75 @@ The arguments you might eventually care about:
 | top | camera_ptr + 31 |
 | near clip (rasterizer) | camera_ptr + 32 |
 | far clip (rasterizer) | camera_ptr + 33 |
+
+
+##Accessing Pre-Loaded Global Constants
+
+| Function | Description | Notes |
+|:-------------|:----------------|:----------|
+| int GetXRes() | Returns image width|Set by simulator argument: --width|
+| float GetInvXRes() | Returns inverse image width|Affected by simulator argument: --width|
+| int GetYRes() | Returns image height|Set by simulator argument: --height|
+| float GetInvYRes() | Returns inverse image height|Affected by simulator argument: --height|
+| int GetFrameBuffer() | Returns the global address of the frame buffer| |Ray Tracer Specific Global Constants
+
+Depending on simulator arguments, the system may pre-load portions of global memory with ray tracing data structures. The locations of these structures are accessed with the following:
+
+| Function | Description | Notes |
+|:-------------|:----------------|:----------|
+| int GetBVH() | Returns the global address of the root node of the BVH|Affected by simulator parameter: --model|
+| int GetMaterials() | Returns the global address of the materials array|Affected by simulator parameter: --model|
+| int GetCamera() | Returns the global address of the camera data|Affected by simulator parameter: --view-file (see Viewfiles)|
+| int GetLight() | Returns the global address of the light data|Affected by simulator parameter: --light-file|
+| int GetStartTriangles() | Returns the global address of the triangles array|Affected by simulator parameter: --model|
+| int GetNumTriangles() | Returns the number of triangles in the model|Affected by simulator parameter: --model|
+Thread Information
+
+| Function | Description | Notes |
+|:-------------|:----------------|:----------|
+| int GetThreadID() | Returns the thread's ID within its TM|Affected by simulator parameters: --num-thread-procs, --num-TMs, --num-l2s|
+| int GetCoreID() | Returns the thread's TM ID|Affected by simulator parameters: --num-thread-procs, --num-TMs, --num-l2s|
+| int GetL2ID() | Returns the thread's L2 ID|Affected by simulator parameters: --num-thread-procs, --num-TMs, --num-l2s|
+
+## Accessing Global Memory
+
+TRaX has two memory spaces: thread-local, and global (see Programming#TRaX_memory_system). All global memory access is done explicitly with the below base functions. It is recommended to build on these with your own helper functions for loading/storing data structures.
+
+Note: in the functions below, offset must be an integer literal (can not be a variable name)
+
+| Function | Description |
+|:-------------|:----------------|
+| int loadi( int base, int offset = 0 ) | Loads the word in global memory at address base + offset|
+| float loadf( int base, int offset = 0 ) | Loads the word in global memory at address base + offset|
+| void storei( int value, int base, int offset = 0 ) | Stores value to global memory at address base + offset|
+| void storef( float value, int base, int offset = 0 ) | Stores value to global memory at address base + offset|
+
+## Arithmetic
+
+| Function | Description | Notes |
+|:-------------|:----------------|:----------|
+| float min( float left, float right ) | Returns the smaller of the two arguments | Implemented as a machine instruction |
+| float max( float left, float right ) | Returns the larger of the two arguments | Implemented as a machine instruction |
+| float invsqrt( float value ) | Returns 1/sqrt(value) | Implemented as a machine instruction |
+| float trax_rand( ) | Returns a random number between 0 and 1 | Implemented as a machine instruction |
+
+
+## Thread Synchronization
+
+These functions all use global registers, accessed atomically, to implement thread synchronization. Functions that modify global registers must be carefully used in a way that they do not interfere with each other. For example, using the same global register as a counter (atomicinc) and a semaphore at the same time will have undesired results.
+
+| Function | Description | Notes |
+|:-------------|:----------------|:----------|
+| int atomicinc( int glbID ) | Atomically increments global register glbID |Returns previous value (post increment)|
+| int barrier( int glbID ) | Uses global register glbID to implement a system-wide barrier (block until all threads have reached it). Return value is unused. | Global register glbID should not be used by any other functions (including other barriers)|
+| void trax_semacq( int glbID ) | Acquires semaphore on global register glbID. Blocks until successful | Global register glbID should not be used by any other non-semaphore functions|
+| void trax_semrel( int glbID ) | Releases semaphore on global register glbID. | Global register glbID should not be used by any other non-semaphore functions|
+
+
+## Debug
+
+| Function | Description | Notes |
+|:-------------|:----------------|:----------|
+| void trax_printi( int value ) | Print an integer value to the terminal | Will print the full contents of the register containing the value |
+| void trax_printf( float value ) | Print a floating point value to the terminal | Will print the full contents of the register containing the value |
+| int printf ( const char * format, ... ) | Similar to stdio's printf | Supports %d, %c, %f, %u only. Implemented as a syscall instruction. Full processing required to parse the format string is not simulated (happens with a single instruction) |
