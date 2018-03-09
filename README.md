@@ -1,7 +1,8 @@
 This program was developed by Josef Spjut and Daniel Kopta. I am only
 forking it for personal reference.
 
-Documentation from the authors: https://code.google.com/archive/p/simtrax/wikis
+Documentation from the authors: https://code.google.com/archive/p/simtrax/wikis  
+Further info on Hardware Raytracing course, University of Utah: http://www.eng.utah.edu/~cs6958/
 
 ## In order to install (Mac OSX)
 
@@ -36,10 +37,12 @@ called `rt-llvm.s`.
 
 ## Simulation
 
+In `simtrax/sim` run: `./simtrax --load-assembly <path to rt-llvm.s file> --model <path to .obj> --view-file <path to .view>` + other parameters.
+
 The arguments you might eventually care about:
 
 ****These ones configure the resources on the chip****
-
+--no-scene (if no scene is present)
 --num-thread-procs  (threads per TM)  
 --num-cores (number of TMs)  
 --num-L2s (number of L2 caches. Each L2 has --num-cores TMs connected to it)  
